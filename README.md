@@ -2,17 +2,16 @@
 
 A modern web application that lets you chat with an AI assistant trained on your favorite YouTuber's content. Experience natural conversations that mimic the style and knowledge of popular content creators.
 
-![App Screenshot](https://via.placeholder.com/800x500.png?text=YouTuber+Chatbot+Screenshot)  
-*Screenshot placeholder - replace with actual screenshot of your app*
+![Image](https://github.com/user-attachments/assets/6f4b394f-21fc-4981-807a-200c8a5d09ef)
+
+![Image](https://github.com/user-attachments/assets/d1f4c449-db13-4263-b4ff-b70661947c4f)
+
+![Image](https://github.com/user-attachments/assets/9d6a5cf2-1d8e-4c79-b4dd-1012055e6a7f)
 
 ## ✨ Features
 
 - **YouTube Channel Integration**: Connect with any YouTube channel using URL or handle
 - **AI-Powered Chat**: Get responses that match the style and knowledge of the YouTuber
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Modern UI**: Built with Chakra UI for a clean, accessible interface
-- **Dark/Light Mode**: Toggle between themes for comfortable viewing
-- **Real-time Interaction**: Smooth, responsive chat experience
 
 ## 🚀 Getting Started
 
@@ -20,7 +19,7 @@ A modern web application that lets you chat with an AI assistant trained on your
 
 - Node.js (v16 or higher)
 - npm or yarn
-- Python 3.8+ (for backend)
+- Python 3.11 (for backend)
 
 ### Installation
 
@@ -73,19 +72,13 @@ A modern web application that lets you chat with an AI assistant trained on your
 
 - **Backend**:
   - FastAPI
-  - Python 3.8+
+  - Python 3.11
   - SQLAlchemy (if using a database)
   - YouTube Data API
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## 📝 License
 
