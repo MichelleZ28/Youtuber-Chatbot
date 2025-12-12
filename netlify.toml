@@ -1,0 +1,32 @@
+[build]
+  command = "cd frontend && npm ci && npm run build"
+  publish = "frontend/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  NODE_VERSION = "18.0.0"
+  NPM_FLAGS = "--legacy-peer-deps"  # Helps with peer dependency issues
+
+[functions]
+  # If you add serverless functions later, they'll go in the netlify/functions directory
+  directory = "netlify/functions"
+
+[dev]
+  # Local development server settings
+  command = "cd frontend && npm run dev"
+  port = 3000  # Matches Vite's default dev server port
+  targetPort = 5173  # Vite's default port
+
+# Security headers for better security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://your-render-app.onrender.com;"
+    Referrer-Policy = "strict-origin-when-cross-origin"
