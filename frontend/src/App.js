@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from 'react';
-import { Box, Button, Container, Flex, Heading, HStack, Input, Image, Text, VStack, Avatar, useColorModeValue, Spinner, Badge, chakra } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, HStack, Input, Text, VStack, Avatar, useColorModeValue, Spinner, Badge, chakra } from '@chakra-ui/react';
+import { FaYoutube, FaUser } from 'react-icons/fa';
 function App() {
     const [channelUrl, setChannelUrl] = useState('');
     const [isChatStarted, setIsChatStarted] = useState(false);
@@ -44,7 +45,7 @@ function App() {
     };
     const renderAvatar = (sender) => {
         if (sender === 'user') {
-            return _jsx(Avatar, { src: "userProfile.png", name: "You", size: "md", bg: "green.100", color: "green.700", fontWeight: "semibold" });
+            return (_jsx(Avatar, { icon: _jsx(FaUser, {}), name: "You", size: "md", bg: "green.100", color: "green.700", fontWeight: "semibold" }));
         }
         if (channelInfo?.thumbnail) {
             return _jsx(Avatar, { src: channelInfo.thumbnail, name: channelInfo.title || 'Channel', size: "md" });
@@ -164,7 +165,7 @@ function App() {
             setIsLoading(false);
         }
     };
-    return (_jsxs(Flex, { minH: "100vh", direction: "column", bg: useColorModeValue('gray.50', 'gray.900'), children: [_jsx(Box, { as: "header", bg: "red.600", color: "white", py: 5, boxShadow: "sm", children: _jsx(Container, { maxW: "5xl", children: _jsxs(Flex, { align: "center", children: [_jsx(Image, { src: "youtube-Icon.png", alt: "My Icon", boxSize: "80px", mr: 3 }), _jsx(Heading, { size: "lg", fontWeight: "semibold", children: "YouTuber Chatbot" })] }) }) }), _jsx(Container, { maxW: "5xl", flex: "1", py: 8, children: !isChatStarted ? (_jsx(Flex, { align: "center", justify: "center", h: "full", children: _jsx(chakra.form, { onSubmit: handleStartChat, bg: surfaceBg, borderRadius: "2xl", boxShadow: "lg", p: 8, borderWidth: "1px", borderColor: surfaceBorder, maxW: "md", w: "full", children: _jsxs(VStack, { spacing: 6, align: "stretch", children: [_jsxs("div", { children: [_jsx(Heading, { size: "md", mb: 2, children: "Enter a YouTube channel to begin" }), _jsx(Text, { color: "gray.500", children: "Paste a channel URL or handle to start chatting in their style." })] }), _jsxs(VStack, { align: "stretch", spacing: 2, children: [_jsx(chakra.label, { htmlFor: "channelUrl", fontWeight: "medium", children: "YouTube Channel URL or Handle" }), _jsx(Input, { id: "channelUrl", value: channelUrl, onChange: (e) => setChannelUrl(e.target.value), placeholder: "e.g. https://www.youtube.com/@NeetCode", size: "lg", required: true })] }), _jsx(Button, { type: "submit", colorScheme: "red", size: "lg", borderRadius: "lg", children: "Start Chat" })] }) }) })) : (_jsxs(Flex, { direction: "column", h: "full", gap: 6, children: [_jsx(Button, { alignSelf: "flex-end", variant: "ghost", size: "sm", onClick: () => {
+    return (_jsxs(Flex, { minH: "100vh", direction: "column", bg: useColorModeValue('gray.50', 'gray.900'), children: [_jsx(Box, { as: "header", bg: "red.600", color: "white", py: 5, boxShadow: "sm", children: _jsx(Container, { maxW: "5xl", children: _jsxs(Flex, { align: "center", children: [_jsx(Box, { as: FaYoutube, boxSize: "80px", color: "white", mr: 3 }), _jsx(Heading, { size: "lg", fontWeight: "semibold", children: "YouTuber Chatbot" })] }) }) }), _jsx(Container, { maxW: "5xl", flex: "1", py: 8, children: !isChatStarted ? (_jsx(Flex, { align: "center", justify: "center", h: "full", children: _jsx(chakra.form, { onSubmit: handleStartChat, bg: surfaceBg, borderRadius: "2xl", boxShadow: "lg", p: 8, borderWidth: "1px", borderColor: surfaceBorder, maxW: "md", w: "full", children: _jsxs(VStack, { spacing: 6, align: "stretch", children: [_jsxs("div", { children: [_jsx(Heading, { size: "md", mb: 2, children: "Enter a YouTube channel to begin" }), _jsx(Text, { color: "gray.500", children: "Paste a channel URL or handle to start chatting in their style." })] }), _jsxs(VStack, { align: "stretch", spacing: 2, children: [_jsx(chakra.label, { htmlFor: "channelUrl", fontWeight: "medium", children: "YouTube Channel URL or Handle" }), _jsx(Input, { id: "channelUrl", value: channelUrl, onChange: (e) => setChannelUrl(e.target.value), placeholder: "e.g. https://www.youtube.com/@NeetCode", size: "lg", required: true })] }), _jsx(Button, { type: "submit", colorScheme: "red", size: "lg", borderRadius: "lg", children: "Start Chat" })] }) }) })) : (_jsxs(Flex, { direction: "column", h: "full", gap: 6, children: [_jsx(Button, { alignSelf: "flex-end", variant: "ghost", size: "sm", onClick: () => {
                                 setIsChatStarted(false);
                                 setChannelInfo(null);
                                 setMessages([]);

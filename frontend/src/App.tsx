@@ -7,7 +7,6 @@ import {
   Heading,
   HStack,
   Input,
-  Image,
   Text,
   VStack,
   Avatar,
@@ -16,6 +15,7 @@ import {
   Badge,
   chakra
 } from '@chakra-ui/react';
+import { FaYoutube, FaUser } from 'react-icons/fa';
 
 interface Message {
   id: number;
@@ -84,7 +84,16 @@ function App() {
 
   const renderAvatar = (sender: Message['sender']) => {
     if (sender === 'user') {
-      return <Avatar src="userProfile.png" name="You" size="md" bg="green.100" color="green.700" fontWeight="semibold" />;
+      return (
+        <Avatar
+          icon={<FaUser />}
+          name="You"
+          size="md"
+          bg="green.100"
+          color="green.700"
+          fontWeight="semibold"
+        />
+      );
     }
 
     if (channelInfo?.thumbnail) {
@@ -226,12 +235,7 @@ function App() {
       <Box as="header" bg="red.600" color="white" py={5} boxShadow="sm">
         <Container maxW="5xl">
           <Flex align="center">
-            <Image 
-              src="youtube-Icon.png" 
-              alt="My Icon" 
-              boxSize="80px"
-              mr={3}
-            />
+            <Box as={FaYoutube} boxSize="80px" color="white" mr={3} />
             <Heading size="lg" fontWeight="semibold">
               YouTuber Chatbot
             </Heading>
