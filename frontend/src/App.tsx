@@ -126,7 +126,7 @@ function App() {
     try {
       // First, fetch channel info so avatar and header render immediately
       const response = await fetch(
-        `http://localhost:8000/api/channels/${encodeURIComponent(identifier)}`
+        `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/channels/${encodeURIComponent(identifier)}`
       );
 
       if (response.ok) {
@@ -171,7 +171,7 @@ function App() {
 
     try {
       // Send message to backend
-      const response = await fetch('http://localhost:8000/api/chat', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
