@@ -9,11 +9,13 @@ function App() {
     const [inputMessage, setInputMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [channelInfo, setChannelInfo] = useState(null);
+    const [startupHint, setStartupHint] = useState(null);
     const bubbleBgUser = useColorModeValue('gray.50', 'gray.700');
     const bubbleBgBot = useColorModeValue('red.500', 'red.400');
     const bubbleBorderUser = useColorModeValue('gray.200', 'gray.600');
     const surfaceBg = useColorModeValue('white', 'gray.800');
     const surfaceBorder = useColorModeValue('gray.100', 'gray.700');
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
     const extractChannelIdentifier = (input) => {
         const trimmed = input.trim();
         if (!trimmed) {
@@ -72,9 +74,13 @@ function App() {
             return;
         }
         setIsLoading(true);
+        setStartupHint('Connecting to the server...');
+        const warmupTimer = window.setTimeout(() => {
+            setStartupHint('This can take a few seconds if the server is waking up...');
+        }, 2500);
         try {
             // First, fetch channel info so avatar and header render immediately
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/channels/${encodeURIComponent(identifier)}`);
+            const response = await fetch(`${API_BASE_URL}/api/channels/${encodeURIComponent(identifier)}`);
             if (response.ok) {
                 const data = await response.json();
                 setChannelInfo(data);
@@ -89,7 +95,9 @@ function App() {
             setChannelInfo({ title: channelUrl });
         }
         finally {
+            clearTimeout(warmupTimer);
             setIsLoading(false);
+            setStartupHint(null);
             setIsChatStarted(true);
             // Add a welcome message when chat starts
             setMessages([
@@ -117,7 +125,7 @@ function App() {
         setIsLoading(true);
         try {
             // Send message to backend
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/chat`, {
+            const response = await fetch(`${API_BASE_URL}/api/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -165,7 +173,7 @@ function App() {
             setIsLoading(false);
         }
     };
-    return (_jsxs(Flex, { minH: "100vh", direction: "column", bg: useColorModeValue('gray.50', 'gray.900'), children: [_jsx(Box, { as: "header", bg: "red.600", color: "white", py: 5, boxShadow: "sm", children: _jsx(Container, { maxW: "5xl", children: _jsxs(Flex, { align: "center", children: [_jsx(Box, { as: FaYoutube, boxSize: "80px", color: "white", mr: 3 }), _jsx(Heading, { size: "lg", fontWeight: "semibold", children: "YouTuber Chatbot" })] }) }) }), _jsx(Container, { maxW: "5xl", flex: "1", py: 8, children: !isChatStarted ? (_jsx(Flex, { align: "center", justify: "center", h: "full", children: _jsx(chakra.form, { onSubmit: handleStartChat, bg: surfaceBg, borderRadius: "2xl", boxShadow: "lg", p: 8, borderWidth: "1px", borderColor: surfaceBorder, maxW: "md", w: "full", children: _jsxs(VStack, { spacing: 6, align: "stretch", children: [_jsxs("div", { children: [_jsx(Heading, { size: "md", mb: 2, children: "Enter a YouTube channel to begin" }), _jsx(Text, { color: "gray.500", children: "Paste a channel URL or handle to start chatting in their style." })] }), _jsxs(VStack, { align: "stretch", spacing: 2, children: [_jsx(chakra.label, { htmlFor: "channelUrl", fontWeight: "medium", children: "YouTube Channel URL or Handle" }), _jsx(Input, { id: "channelUrl", value: channelUrl, onChange: (e) => setChannelUrl(e.target.value), placeholder: "e.g. https://www.youtube.com/@NeetCode", size: "lg", required: true })] }), _jsx(Button, { type: "submit", colorScheme: "red", size: "lg", borderRadius: "lg", children: "Start Chat" })] }) }) })) : (_jsxs(Flex, { direction: "column", h: "full", gap: 6, children: [_jsx(Button, { alignSelf: "flex-end", variant: "ghost", size: "sm", onClick: () => {
+    return (_jsxs(Flex, { minH: "100vh", direction: "column", bg: useColorModeValue('gray.50', 'gray.900'), children: [_jsx(Box, { as: "header", bg: "red.600", color: "white", py: 5, boxShadow: "sm", children: _jsx(Container, { maxW: "5xl", children: _jsxs(Flex, { align: "center", children: [_jsx(Box, { as: FaYoutube, boxSize: "80px", color: "white", mr: 3 }), _jsx(Heading, { size: "lg", fontWeight: "semibold", children: "YouTuber Chatbot" })] }) }) }), _jsx(Container, { maxW: "5xl", flex: "1", py: 8, children: !isChatStarted ? (_jsx(Flex, { align: "center", justify: "center", h: "full", children: _jsx(chakra.form, { onSubmit: handleStartChat, bg: surfaceBg, borderRadius: "2xl", boxShadow: "lg", p: 8, borderWidth: "1px", borderColor: surfaceBorder, maxW: "md", w: "full", children: _jsxs(VStack, { spacing: 6, align: "stretch", children: [_jsxs("div", { children: [_jsx(Heading, { size: "md", mb: 2, children: "Enter a YouTube channel to begin" }), _jsx(Text, { color: "gray.500", children: "Paste a channel URL or handle to start chatting in their style." })] }), _jsxs(VStack, { align: "stretch", spacing: 2, children: [_jsx(chakra.label, { htmlFor: "channelUrl", fontWeight: "medium", children: "YouTube Channel URL or Handle" }), _jsx(Input, { id: "channelUrl", value: channelUrl, onChange: (e) => setChannelUrl(e.target.value), placeholder: "e.g. https://www.youtube.com/@NeetCode", size: "lg", required: true })] }), _jsx(Button, { type: "submit", colorScheme: "red", size: "lg", borderRadius: "lg", isLoading: isLoading, loadingText: "Starting chat", children: "Start Chat" }), isLoading && !isChatStarted && startupHint && (_jsx(Text, { fontSize: "sm", color: "gray.500", textAlign: "center", children: startupHint }))] }) }) })) : (_jsxs(Flex, { direction: "column", h: "full", gap: 6, children: [_jsx(Button, { alignSelf: "flex-end", variant: "ghost", size: "sm", onClick: () => {
                                 setIsChatStarted(false);
                                 setChannelInfo(null);
                                 setMessages([]);

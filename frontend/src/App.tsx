@@ -39,12 +39,14 @@ function App() {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [channelInfo, setChannelInfo] = useState<ChannelInfo | null>(null);
+  const [startupHint, setStartupHint] = useState<string | null>(null);
 
   const bubbleBgUser = useColorModeValue('gray.50', 'gray.700');
   const bubbleBgBot = useColorModeValue('red.500', 'red.400');
   const bubbleBorderUser = useColorModeValue('gray.200', 'gray.600');
   const surfaceBg = useColorModeValue('white', 'gray.800');
   const surfaceBorder = useColorModeValue('gray.100', 'gray.700');
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
   const extractChannelIdentifier = (input: string): string | null => {
     const trimmed = input.trim();
@@ -132,11 +134,13 @@ function App() {
     }
 
     setIsLoading(true);
+    setStartupHint('Connecting to the server...');
+    const warmupTimer = window.setTimeout(() => {
+      setStartupHint('This can take a few seconds if the server is waking up...');
+    }, 2500);
     try {
       // First, fetch channel info so avatar and header render immediately
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/channels/${encodeURIComponent(identifier)}`
-      );
+      const response = await fetch(`${API_BASE_URL}/api/channels/${encodeURIComponent(identifier)}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -149,7 +153,9 @@ function App() {
       console.error('Error fetching channel info:', error);
       setChannelInfo({ title: channelUrl });
     } finally {
+      clearTimeout(warmupTimer);
       setIsLoading(false);
+      setStartupHint(null);
       setIsChatStarted(true);
       // Add a welcome message when chat starts
       setMessages([
@@ -180,7 +186,7 @@ function App() {
 
     try {
       // Send message to backend
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/chat`, {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -265,9 +271,14 @@ function App() {
                     required
                   />
                 </VStack>
-                <Button type="submit" colorScheme="red" size="lg" borderRadius="lg">
+                <Button type="submit" colorScheme="red" size="lg" borderRadius="lg" isLoading={isLoading} loadingText="Starting chat">
                   Start Chat
                 </Button>
+                {isLoading && !isChatStarted && startupHint && (
+                  <Text fontSize="sm" color="gray.500" textAlign="center">
+                    {startupHint}
+                  </Text>
+                )}
               </VStack>
             </chakra.form>
           </Flex>
