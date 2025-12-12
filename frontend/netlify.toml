@@ -12,6 +12,7 @@
 [build.environment]
   NODE_VERSION = "18"
   NPM_VERSION = "9"
+  VITE_API_BASE_URL = "https://youtuber-chatbot.onrender.com"
 
 # Cache configuration
 [[headers]]
