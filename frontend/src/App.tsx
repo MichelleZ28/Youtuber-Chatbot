@@ -269,6 +269,19 @@ function App() {
           </Flex>
         ) : (
           <Flex direction="column" h="full" gap={6}>
+            <Button
+              alignSelf="flex-end"
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setIsChatStarted(false);
+                setChannelInfo(null);
+                setMessages([]);
+                setChannelUrl('');
+              }}
+            >
+              ← Change Channel
+            </Button>
             {channelInfo && (
               <Flex align="center" gap={4} bg={surfaceBg} borderRadius="2xl" borderWidth="1px" borderColor={surfaceBorder} p={5} boxShadow="sm">
                 {renderAvatar('bot')}
